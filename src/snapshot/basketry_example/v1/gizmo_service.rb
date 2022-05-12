@@ -7,9 +7,11 @@
 # typed: strict
 
 module BasketryExample::V1
-  GizmoService
-    T::Sig
-    T::Helpers
+  module GizmoService
+    extend T::Sig
+    extend T::Helpers
+
+    interface!
 
     # Only has a summary
     sig do

@@ -7,9 +7,11 @@
 # typed: strict
 
 module BasketryExample::V1
-  ExhaustiveService
-    T::Sig
-    T::Helpers
+  module ExhaustiveService
+    extend T::Sig
+    extend T::Helpers
+
+    interface!
 
     sig do
       abstract.params(

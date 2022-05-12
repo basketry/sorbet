@@ -7,9 +7,11 @@
 # typed: strict
 
 module BasketryExample::V1
-  WidgetService
-    T::Sig
-    T::Helpers
+  module WidgetService
+    extend T::Sig
+    extend T::Helpers
+
+    interface!
 
     sig { abstract.returns(T.nilable(BasketryExample::V1::Types::Widget)) }
     def get_widgets

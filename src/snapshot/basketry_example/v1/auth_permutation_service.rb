@@ -7,9 +7,11 @@
 # typed: strict
 
 module BasketryExample::V1
-  AuthPermutationService
-    T::Sig
-    T::Helpers
+  module AuthPermutationService
+    extend T::Sig
+    extend T::Helpers
+
+    interface!
 
     sig { abstract.void }
     def all_auth_schemes

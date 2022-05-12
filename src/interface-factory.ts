@@ -91,9 +91,11 @@ class Builder {
     yield* this.comment(int.description);
     yield* block(
       `module ${buildInterfaceNamespace(this.service, this.options)}`,
-      block(buildInterfaceName(int), function* () {
-        yield 'T::Sig';
-        yield 'T::Helpers';
+      block(`module ${buildInterfaceName(int)}`, function* () {
+        yield 'extend T::Sig';
+        yield 'extend T::Helpers';
+        yield '';
+        yield 'interface!';
         for (const method of int.methods) {
           yield '';
           yield* self.comment(method.description);
