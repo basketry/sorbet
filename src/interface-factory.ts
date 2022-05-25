@@ -6,9 +6,6 @@ import {
   isRequired,
   Literal,
   Method,
-  Parameter,
-  Property,
-  ReturnType,
   Service,
   Type,
 } from 'basketry';
@@ -20,10 +17,10 @@ import {
   buildInterfaceName,
   buildInterfaceNamespace,
   buildMethodName,
-  buildNamespace,
   buildParameterName,
   buildPropertyName,
   buildTypeFilepath,
+  buildTypeName,
   buildTypeNamespace,
 } from './name-factory';
 
@@ -112,7 +109,11 @@ class Builder {
     const self = this;
 
     if (method.returnType) {
-      const typeName = self.buildTypeName({ type: method.returnType! });
+      const typeName = buildTypeName({
+        type: method.returnType!,
+        service: this.service,
+        options: this.options,
+      });
       const returnType = isRequired(method.returnType!)
         ? typeName
         : `T.nilable(${typeName})`;
@@ -145,8 +146,10 @@ class Builder {
     yield* indent(
       method.parameters.map((param, i) => {
         const comma = i === method.parameters.length - 1 ? '' : ',';
-        const typeName = this.buildTypeName({
+        const typeName = buildTypeName({
           type: param,
+          service: this.service,
+          options: this.options,
         });
         const nilableTypeName = isRequired(param)
           ? typeName
@@ -198,8 +201,10 @@ class Builder {
           function* () {
             let isFirst = true;
             for (const property of type.properties) {
-              const typeName = self.buildTypeName({
+              const typeName = buildTypeName({
                 type: property,
+                service: self.service,
+                options: self.options,
               });
 
               if (!isFirst && property.description) yield '';
@@ -251,45 +256,6 @@ class Builder {
     );
 
     yield '';
-  }
-
-  private buildTypeName({
-    type,
-    skipArrayify = false,
-  }: {
-    type: Parameter | Property | ReturnType;
-    skipArrayify?: boolean;
-  }): string {
-    const arrayify = (n: string) =>
-      type.isArray && !skipArrayify ? `T::Array[${n}]` : n;
-
-    if (type.isUnknown) {
-      return arrayify('T.untyped');
-    } else if (type.isLocal) {
-      let moduleNamespace: string;
-      if (
-        this.service.types.some((t) => t.name.value === type.typeName.value)
-      ) {
-        moduleNamespace = buildTypeNamespace(this.service, this.options);
-      } else {
-        moduleNamespace = buildEnumNamespace(this.service, this.options);
-      }
-
-      return arrayify(`${moduleNamespace}::${pascal(type.typeName.value)}`);
-    }
-
-    switch (type.typeName.value) {
-      case 'string':
-        return arrayify('String');
-      case 'number':
-        return arrayify('Numeric');
-      case 'integer':
-        return arrayify('Integer');
-      case 'boolean':
-        return arrayify('T::Boolean');
-      default:
-        return arrayify('T.untyped');
-    }
   }
 }
 

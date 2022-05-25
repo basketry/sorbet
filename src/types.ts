@@ -5,5 +5,6 @@ export type SorbetOptions = {
     interfacesModule?: string;
     fileIncludes?: string[];
     includeVersion?: boolean;
+    types?: Record<string, string>;
   };
 };

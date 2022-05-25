@@ -4,6 +4,7 @@ import {
   Method,
   Parameter,
   Property,
+  ReturnType,
   Service,
   Type,
 } from 'basketry';
@@ -67,6 +68,59 @@ export function buildTypeFilepath(
   const namespace = buildTypeNamespace(service, options);
 
   return [...namespace.split('::').map(snake), `${snake(type.name.value)}.rb`];
+}
+export function buildTypeName({
+  type,
+  service,
+  options,
+  skipArrayify = false,
+}: {
+  type: Parameter | Property | ReturnType;
+  service: Service;
+  options: SorbetOptions | undefined;
+  skipArrayify?: boolean;
+}): string {
+  const arrayify = (n: string) =>
+    type.isArray && !skipArrayify ? `T::Array[${n}]` : n;
+
+  if (type.isUnknown) {
+    return arrayify('T.untyped');
+  } else if (type.isLocal) {
+    let moduleNamespace: string;
+    if (service.types.some((t) => t.name.value === type.typeName.value)) {
+      moduleNamespace = buildTypeNamespace(service, options);
+    } else {
+      moduleNamespace = buildEnumNamespace(service, options);
+    }
+
+    return arrayify(`${moduleNamespace}::${pascal(type.typeName.value)}`);
+  }
+
+  const override = options?.sorbet?.types?.[type.typeName.value];
+  if (override) {
+    return arrayify(override);
+  }
+
+  switch (type.typeName.value) {
+    case 'string':
+      return arrayify('String');
+    case 'number':
+      return arrayify('Numeric');
+    case 'integer':
+    case 'long':
+      return arrayify('Integer');
+    case 'float':
+    case 'double':
+      return arrayify('Float');
+    case 'boolean':
+      return arrayify('T::Boolean');
+    case 'date':
+      return arrayify('Date');
+    case 'date-time':
+      return arrayify('DateTime');
+    default:
+      return arrayify('T.untyped');
+  }
 }
 
 export function buildEnumNamespace(

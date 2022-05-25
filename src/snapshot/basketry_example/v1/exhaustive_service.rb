@@ -15,6 +15,22 @@ module BasketryExample::V1
 
     sig do
       abstract.params(
+        string_no_format: T.nilable(String),
+        string_date: T.nilable(Date),
+        string_date_time: T.nilable(DateTime),
+        integer_no_format: T.nilable(Integer),
+        integer_int32: T.nilable(Integer),
+        integer_int64: T.nilable(Integer),
+        number_no_format: T.nilable(Numeric),
+        number_float: T.nilable(Float),
+        number_double: T.nilable(Float)
+      ).void
+    end
+    def exhaustive_formats(string_no_format:, string_date:, string_date_time:, integer_no_format:, integer_int32:, integer_int64:, number_no_format:, number_float:, number_double:)
+    end
+
+    sig do
+      abstract.params(
         query_string: T.nilable(String),
         query_enum: T.nilable(BasketryExample::V1::Enums::ExhaustiveParamsQueryEnum),
         query_number: T.nilable(Numeric),
