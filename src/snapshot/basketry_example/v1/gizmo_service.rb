@@ -13,17 +13,6 @@ module BasketryExample::V1
 
     interface!
 
-    # Only has a summary
-    sig do
-      abstract.params(
-        search: T.nilable(String)
-      ).returns(
-        T.nilable(BasketryExample::V1::Types::GizmosResponse)
-      )
-    end
-    def get_gizmos(search:)
-    end
-
     # Has a summary in addition to a description
     # Has a description in addition to a summary
     sig do
@@ -34,6 +23,17 @@ module BasketryExample::V1
       )
     end
     def create_gizmo(size:)
+    end
+
+    # Only has a summary
+    sig do
+      abstract.params(
+        search: T.nilable(String)
+      ).returns(
+        T.nilable(BasketryExample::V1::Types::GizmosResponse)
+      )
+    end
+    def get_gizmos(search:)
     end
 
     sig do

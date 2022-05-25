@@ -85,6 +85,10 @@ class Builder {
       yield '';
     }
 
+    const methods = [...int.methods].sort((a, b) =>
+      a.name.value.localeCompare(b.name.value),
+    );
+
     yield* this.comment(int.description);
     yield* block(
       `module ${buildInterfaceNamespace(this.service, this.options)}`,
@@ -93,7 +97,7 @@ class Builder {
         yield 'extend T::Helpers';
         yield '';
         yield 'interface!';
-        for (const method of int.methods) {
+        for (const method of methods) {
           yield '';
           yield* self.comment(method.description);
           yield* self.buildSignature(method);

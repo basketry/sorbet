@@ -13,10 +13,6 @@ module BasketryExample::V1
 
     interface!
 
-    sig { abstract.returns(T.nilable(BasketryExample::V1::Types::Widget)) }
-    def get_widgets
-    end
-
     sig do
       abstract.params(
         body: T.nilable(BasketryExample::V1::Types::CreateWidgetBody)
@@ -25,8 +21,12 @@ module BasketryExample::V1
     def create_widget(body:)
     end
 
-    sig { abstract.void }
-    def put_widget
+    sig do
+      abstract.params(
+        id: String
+      ).void
+    end
+    def delete_widget_foo(id:)
     end
 
     sig do
@@ -39,12 +39,12 @@ module BasketryExample::V1
     def get_widget_foo(id:)
     end
 
-    sig do
-      abstract.params(
-        id: String
-      ).void
+    sig { abstract.returns(T.nilable(BasketryExample::V1::Types::Widget)) }
+    def get_widgets
     end
-    def delete_widget_foo(id:)
+
+    sig { abstract.void }
+    def put_widget
     end
   end
 end
