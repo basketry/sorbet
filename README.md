@@ -3,7 +3,7 @@
 
 # Sorbet
 
-[Basketry generator](https://github.com/basketry/basketry) for generating [Sorbet](https://sorbet.org/) interfaces. This parser can be coupled with any Basketry parser.
+[Basketry generator](https://github.com/basketry/basketry) for generating [Sorbet](https://sorbet.org/) types and interfaces. This parser can be coupled with any Basketry parser.
 
 ## Quick Start
 
