@@ -33,13 +33,13 @@ module BasketryExample::V1
       abstract.params(
         id: String
       ).returns(
-        T.nilable(BasketryExample::V1::Types::Widget)
+        BasketryExample::V1::Types::Widget
       )
     end
     def get_widget_foo(id:)
     end
 
-    sig { abstract.returns(T.nilable(BasketryExample::V1::Types::Widget)) }
+    sig { abstract.returns(BasketryExample::V1::Types::Widget) }
     def get_widgets
     end
 

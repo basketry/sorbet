@@ -19,7 +19,7 @@ module BasketryExample::V1
       abstract.params(
         size: T.nilable(BasketryExample::V1::Enums::CreateGizmoSize)
       ).returns(
-        T.nilable(BasketryExample::V1::Types::Gizmo)
+        BasketryExample::V1::Types::Gizmo
       )
     end
     def create_gizmo(size:)
@@ -30,7 +30,7 @@ module BasketryExample::V1
       abstract.params(
         search: T.nilable(String)
       ).returns(
-        T.nilable(BasketryExample::V1::Types::GizmosResponse)
+        BasketryExample::V1::Types::GizmosResponse
       )
     end
     def get_gizmos(search:)
@@ -40,7 +40,7 @@ module BasketryExample::V1
       abstract.params(
         factors: T.nilable(T::Array[String])
       ).returns(
-        T.nilable(BasketryExample::V1::Types::Gizmo)
+        BasketryExample::V1::Types::Gizmo
       )
     end
     def update_gizmo(factors:)

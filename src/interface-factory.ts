@@ -118,20 +118,17 @@ class Builder {
         service: this.service,
         options: this.options,
       });
-      const returnType = isRequired(method.returnType!)
-        ? typeName
-        : `T.nilable(${typeName})`;
 
       if (method.parameters.length) {
         yield* block('sig do', function* () {
           yield 'abstract.params(';
           yield* self.buildSignatureParameters(method);
           yield `).returns(`;
-          yield* indent(returnType);
+          yield* indent(typeName);
           yield `)`;
         });
       } else {
-        yield `sig { abstract.returns(${returnType}) }`;
+        yield `sig { abstract.returns(${typeName}) }`;
       }
     } else {
       if (method.parameters.length) {
