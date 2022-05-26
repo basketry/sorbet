@@ -18,7 +18,7 @@ module BasketryExample::V1
         body: T.nilable(BasketryExample::V1::Types::CreateWidgetBody)
       ).void
     end
-    def create_widget(body:)
+    def create_widget(body: nil)
     end
 
     sig do

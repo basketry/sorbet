@@ -22,7 +22,7 @@ module BasketryExample::V1
         BasketryExample::V1::Types::Gizmo
       )
     end
-    def create_gizmo(size:)
+    def create_gizmo(size: nil)
     end
 
     # Only has a summary
@@ -33,7 +33,7 @@ module BasketryExample::V1
         BasketryExample::V1::Types::GizmosResponse
       )
     end
-    def get_gizmos(search:)
+    def get_gizmos(search: nil)
     end
 
     sig do
@@ -43,7 +43,7 @@ module BasketryExample::V1
         BasketryExample::V1::Types::Gizmo
       )
     end
-    def update_gizmo(factors:)
+    def update_gizmo(factors: nil)
     end
   end
 end

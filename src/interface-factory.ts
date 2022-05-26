@@ -6,6 +6,7 @@ import {
   isRequired,
   Literal,
   Method,
+  Parameter,
   Service,
   Type,
 } from 'basketry';
@@ -145,7 +146,7 @@ class Builder {
 
   private *buildSignatureParameters(method: Method): Iterable<string> {
     yield* indent(
-      method.parameters.map((param, i) => {
+      sortParameters(method.parameters).map((param, i) => {
         const comma = i === method.parameters.length - 1 ? '' : ',';
         const typeName = buildTypeName({
           type: param,
@@ -163,8 +164,11 @@ class Builder {
 
   private *buildDefinition(method: Method): Iterable<string> {
     const parameters = method.parameters.length
-      ? `(${method.parameters
-          .map((param) => `${buildParameterName(param)}:`)
+      ? `(${sortParameters(method.parameters)
+          .map(
+            (param) =>
+              `${buildParameterName(param)}:${isRequired(param) ? '' : ' nil'}`,
+          )
           .join(', ')})`
       : '';
 
@@ -258,6 +262,12 @@ class Builder {
 
     yield '';
   }
+}
+
+function sortParameters(parameters: Parameter[]): Parameter[] {
+  return [...parameters].sort(
+    (a, b) => (isRequired(a) ? 0 : 1) - (isRequired(b) ? 0 : 1),
+  );
 }
 
 function from(lines: Iterable<string>): string {

@@ -26,21 +26,11 @@ module BasketryExample::V1
         number_double: T.nilable(Float)
       ).void
     end
-    def exhaustive_formats(string_no_format:, string_date:, string_date_time:, integer_no_format:, integer_int32:, integer_int64:, number_no_format:, number_float:, number_double:)
+    def exhaustive_formats(string_no_format: nil, string_date: nil, string_date_time: nil, integer_no_format: nil, integer_int32: nil, integer_int64: nil, number_no_format: nil, number_float: nil, number_double: nil)
     end
 
     sig do
       abstract.params(
-        query_string: T.nilable(String),
-        query_enum: T.nilable(BasketryExample::V1::Enums::ExhaustiveParamsQueryEnum),
-        query_number: T.nilable(Numeric),
-        query_integer: T.nilable(Integer),
-        query_boolean: T.nilable(T::Boolean),
-        query_string_array: T.nilable(T::Array[String]),
-        query_enum_array: T.nilable(T::Array[BasketryExample::V1::Enums::ExhaustiveParamsQueryEnumArray]),
-        query_number_array: T.nilable(T::Array[Numeric]),
-        query_integer_array: T.nilable(T::Array[Integer]),
-        query_boolean_array: T.nilable(T::Array[T::Boolean]),
         path_string: String,
         path_enum: BasketryExample::V1::Enums::ExhaustiveParamsPathEnum,
         path_number: Numeric,
@@ -51,6 +41,16 @@ module BasketryExample::V1
         path_number_array: T::Array[Numeric],
         path_integer_array: T::Array[Integer],
         path_boolean_array: T::Array[T::Boolean],
+        query_string: T.nilable(String),
+        query_enum: T.nilable(BasketryExample::V1::Enums::ExhaustiveParamsQueryEnum),
+        query_number: T.nilable(Numeric),
+        query_integer: T.nilable(Integer),
+        query_boolean: T.nilable(T::Boolean),
+        query_string_array: T.nilable(T::Array[String]),
+        query_enum_array: T.nilable(T::Array[BasketryExample::V1::Enums::ExhaustiveParamsQueryEnumArray]),
+        query_number_array: T.nilable(T::Array[Numeric]),
+        query_integer_array: T.nilable(T::Array[Integer]),
+        query_boolean_array: T.nilable(T::Array[T::Boolean]),
         header_string: T.nilable(String),
         header_enum: T.nilable(BasketryExample::V1::Enums::ExhaustiveParamsHeaderEnum),
         header_number: T.nilable(Numeric),
@@ -64,7 +64,7 @@ module BasketryExample::V1
         body: T.nilable(BasketryExample::V1::Types::ExhaustiveParamsBody)
       ).void
     end
-    def exhaustive_params(query_string:, query_enum:, query_number:, query_integer:, query_boolean:, query_string_array:, query_enum_array:, query_number_array:, query_integer_array:, query_boolean_array:, path_string:, path_enum:, path_number:, path_integer:, path_boolean:, path_string_array:, path_enum_array:, path_number_array:, path_integer_array:, path_boolean_array:, header_string:, header_enum:, header_number:, header_integer:, header_boolean:, header_string_array:, header_enum_array:, header_number_array:, header_integer_array:, header_boolean_array:, body:)
+    def exhaustive_params(path_string:, path_enum:, path_number:, path_integer:, path_boolean:, path_string_array:, path_enum_array:, path_number_array:, path_integer_array:, path_boolean_array:, query_string: nil, query_enum: nil, query_number: nil, query_integer: nil, query_boolean: nil, query_string_array: nil, query_enum_array: nil, query_number_array: nil, query_integer_array: nil, query_boolean_array: nil, header_string: nil, header_enum: nil, header_number: nil, header_integer: nil, header_boolean: nil, header_string_array: nil, header_enum_array: nil, header_number_array: nil, header_integer_array: nil, header_boolean_array: nil, body: nil)
     end
   end
 end
