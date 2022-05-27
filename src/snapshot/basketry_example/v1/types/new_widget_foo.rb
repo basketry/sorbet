@@ -7,12 +7,8 @@
 # typed: strict
 
 module BasketryExample::V1::Types
-  # Type for creating a new Widget Foo
   class NewWidgetFoo < T::Struct
-    # The fizziest fiz
     const :fiz, T.nilable(Numeric)
-
-    # The buzziest buzz
     const :buzz, Numeric
   end
 end
