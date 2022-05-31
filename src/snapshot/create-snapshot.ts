@@ -1,3 +1,4 @@
+import { withGitattributes } from 'basketry';
 import { writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import { generateTypes } from '../interface-factory';
@@ -15,7 +16,7 @@ const snapshotFiles = generateTypes(service, {
   },
 });
 
-for (const file of snapshotFiles) {
+for (const file of withGitattributes(snapshotFiles)) {
   const path = file.path.slice(0, file.path.length - 1);
   const filename = file.path[file.path.length - 1];
 
