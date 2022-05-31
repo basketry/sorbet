@@ -15,6 +15,226 @@ The following example converts a "Swagger" doc into [Sorbet](https://sorbet.org/
 
 When the last step is run, basketry will parse the source file (`petstore.json`) using the specified parser (`@basketry/swagger-2`) and then run each specified generator (in this case only `@basketry/sorbet`) writing the output folder (`src`).
 
+## Folder Structure
+
+This generator emits a folder structure suitable for loading classes with [Zeitwerk](https://github.com/fxn/zeitwerk). All files are written to the `/{title}/v{majorVersion}` subfolder within the output directory. The default structure can be customized using various options.
+
+Example config without options:
+
+```json
+{
+  "source": "petstore.json",
+  "parser": "@basketry/swagger-2",
+  "generators": ["@basketry/sorbet"],
+  "output": "src"
+}
+```
+
+Resulting output:
+
+```
+my_project/
+├─ src/
+│  ├─ petstore/
+│  │  ├─ v1/
+│  │  │  ├─ some_enum_a.rb
+│  │  │  ├─ some_enum_b.rb
+│  │  │  ├─ some_interface_a.rb
+│  │  │  ├─ some_interface_b.rb
+│  │  │  ├─ some_type_a.rb
+│  │  │  ├─ some_type_b.rb
+│  ├─ .gitattributes
+├─ basketry.config.json
+├─ petstore.json
+```
+
+## Options
+
+All sorbet generator options are namespaced within a `sorbet` property as shown in the following example config:
+
+```json
+{
+  "source": "petstore.json",
+  "parser": "@basketry/swagger-2",
+  "generators": [
+    {
+      "rule": "@basketry/sorbet",
+      "options": {
+        "sorbet": {
+          "includeVersion": false,
+          "typesModule": "types",
+          "enumsModule": "enums",
+          "interfacesModule": "services",
+          "types": {
+            "number": "BigDecimal"
+          }
+        }
+      }
+    }
+  ],
+  "output": "src"
+}
+```
+
+### `includeVersion`
+
+This option controls whether or not the files will be written into a `/v{majorVersion}` subfolder. The default is `true`.
+
+Example usage:
+
+```json
+{
+  "rule": "@basketry/sorbet",
+  "options": {
+    "sorbet": {
+      "includeVersion": false
+    }
+  }
+}
+```
+
+Resulting output:
+
+```
+my_project/
+├─ src/
+│  ├─ petstore/
+│  │  ├─ some_enum_a.rb
+│  │  ├─ some_enum_b.rb
+│  │  ├─ some_interface_a.rb
+│  │  ├─ some_interface_b.rb
+│  │  ├─ some_type_a.rb
+│  │  ├─ some_type_b.rb
+│  ├─ .gitattributes
+├─ basketry.config.json
+├─ petstore.json
+```
+
+### `typesModule`
+
+This option allows you to specify the sub-folder (and sub-module) for the emitted types. If this option is not supplied, types are written into the main project output folder.
+
+```json
+{
+  "rule": "@basketry/sorbet",
+  "options": {
+    "sorbet": {
+      "typesModule": "types"
+    }
+  }
+}
+```
+
+Resulting output:
+
+```
+my_project/
+├─ src/
+│  ├─ petstore/
+│  │  ├─ v1/
+│  │  │  ├─ types/
+│  │  │  │  ├─ some_type_a.rb
+│  │  │  │  ├─ some_type_b.rb
+│  │  │  ├─ some_enum_a.rb
+│  │  │  ├─ some_enum_b.rb
+│  │  │  ├─ some_interface_a.rb
+│  │  │  ├─ some_interface_b.rb
+│  ├─ .gitattributes
+├─ basketry.config.json
+├─ petstore.json
+```
+
+### `enumsModule`
+
+This option allows you to specify the sub-folder (and sub-module) for the emitted types. If this option is not supplied, enums are written into the main project output folder.
+
+```json
+{
+  "rule": "@basketry/sorbet",
+  "options": {
+    "sorbet": {
+      "enumsModule": "enums"
+    }
+  }
+}
+```
+
+Resulting output:
+
+```
+my_project/
+├─ src/
+│  ├─ petstore/
+│  │  ├─ v1/
+│  │  │  ├─ enums/
+│  │  │  │  ├─ some_enum_a.rb
+│  │  │  │  ├─ some_enum_b.rb
+│  │  │  ├─ some_interface_a.rb
+│  │  │  ├─ some_interface_b.rb
+│  │  │  ├─ some_type_a.rb
+│  │  │  ├─ some_type_b.rb
+│  ├─ .gitattributes
+├─ basketry.config.json
+├─ petstore.json
+```
+
+### `interfacesModule`
+
+This option allows you to specify the sub-folder (and sub-module) for the emitted types. If this option is not supplied, interfaces are written into the main project output folder.
+
+```json
+{
+  "rule": "@basketry/sorbet",
+  "options": {
+    "sorbet": {
+      "interfacesModule": "services"
+    }
+  }
+}
+```
+
+Resulting output:
+
+```
+my_project/
+├─ src/
+│  ├─ petstore/
+│  │  ├─ v1/
+│  │  │  ├─ services/
+│  │  │  │  ├─ some_interface_a.rb
+│  │  │  │  ├─ some_interface_b.rb
+│  │  │  ├─ some_enum_a.rb
+│  │  │  ├─ some_enum_b.rb
+│  │  │  ├─ some_type_a.rb
+│  │  │  ├─ some_type_b.rb
+│  ├─ .gitattributes
+├─ basketry.config.json
+├─ petstore.json
+```
+
+### `types`
+
+This option allows you to specify overrides for various types.
+
+The following example will cause the generator to emit `BigDecimal` (instead of the default `Numeric`) for the type `number`. Multiple type overrides may be specified.
+
+```json
+{
+  "rule": "@basketry/sorbet",
+  "options": {
+    "sorbet": {
+      "types": {
+        "number": "BigDecimal"
+      }
+    }
+  }
+}
+```
+
+## Snapshots
+
+An example of generated sorbet code can be found as a test snapshot at [`/src/snapshot/`](./src/snapshot/).
+
 ---
 
 ## For contributors:
