@@ -4,9 +4,9 @@ import {
   Method,
   Parameter,
   Property,
-  ReturnType,
   Service,
   Type,
+  TypedValue,
 } from 'basketry';
 import { pascal, snake } from 'case';
 
@@ -75,7 +75,7 @@ export function buildTypeName({
   options,
   skipArrayify = false,
 }: {
-  type: Parameter | Property | ReturnType;
+  type: TypedValue;
   service: Service;
   options: SorbetOptions | undefined;
   skipArrayify?: boolean;
@@ -114,6 +114,15 @@ export function buildTypeName({
         return arrayify('T.untyped');
     }
   } else {
+    const union = service.unions.find(
+      (u) => u.name.value === type.typeName.value,
+    );
+    if (union) {
+      return `T.any(${union.members
+        .map((v) => buildTypeName({ type: v, service, options }))
+        .join(', ')})`;
+    }
+
     let moduleNamespace: string;
     if (service.types.some((t) => t.name.value === type.typeName.value)) {
       moduleNamespace = buildTypeNamespace(service, options);
