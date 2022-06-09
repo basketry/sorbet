@@ -1,5 +1,4 @@
 import { Service } from 'basketry';
-import { EOL } from 'os';
 
 export const warning = (
   service: Service,
@@ -18,5 +17,5 @@ export const warning = (
 # 2. Run the Basketry CLI
 #
 # About Basketry: ${require('basketry/package.json').homepage}${
-  pkg.homepage ? `${EOL}# About ${pkg.name}: ${pkg.homepage}` : ''
+  pkg.homepage ? `\n# About ${pkg.name}: ${pkg.homepage}` : ''
 }`;
