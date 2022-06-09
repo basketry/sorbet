@@ -73,7 +73,7 @@ class Builder {
 
   private *buildInterface(int: Interface): Iterable<string> {
     const self = this;
-    yield warning;
+    yield warning(this.service, require('../package.json'));
     yield '';
 
     yield '# typed: strict';
@@ -184,7 +184,7 @@ class Builder {
 
   private *buildType(type: Type): Iterable<string> {
     const self = this;
-    yield warning;
+    yield warning(this.service, require('../package.json'));
     yield '';
 
     yield '# typed: strict';
@@ -235,7 +235,7 @@ class Builder {
   }
 
   private *buildEnum(e: Enum): Iterable<string> {
-    yield warning;
+    yield warning(this.service, require('../package.json'));
     yield '';
 
     yield '# typed: strict';
