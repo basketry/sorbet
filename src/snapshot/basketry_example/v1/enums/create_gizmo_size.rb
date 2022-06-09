@@ -7,7 +7,7 @@
 # 1. Edit source/path.ext
 # 2. Run the Basketry CLI
 #
-# About Basketry: https://github.com/basketry/basketry#readme
+# About Basketry: https://github.com/basketry/basketry/wiki
 # About @basketry/sorbet: https://github.com/basketry/sorbet#readme
 
 # typed: strict
