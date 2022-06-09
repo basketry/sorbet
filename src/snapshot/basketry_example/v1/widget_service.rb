@@ -2,7 +2,7 @@
 #
 # Changes to this file may cause incorrect behavior and will be lost if
 # the code is regenerated.
-# 
+#
 # To make changes to the contents of this file:
 # 1. Edit source/path.ext
 # 2. Run the Basketry CLI
