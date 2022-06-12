@@ -25,17 +25,20 @@ import {
   buildTypeNamespace,
 } from './name-factory';
 
-import { SorbetOptions } from './types';
+import { NamespacedSorbetOptions } from './types';
 import { warning } from './warning';
 
-export const generateTypes: Generator = (service, options?: SorbetOptions) => {
+export const generateTypes: Generator = (
+  service,
+  options?: NamespacedSorbetOptions,
+) => {
   return new Builder(service, options).build();
 };
 
 class Builder {
   constructor(
     private readonly service: Service,
-    private readonly options?: SorbetOptions,
+    private readonly options?: NamespacedSorbetOptions,
   ) {}
 
   build(): File[] {
@@ -78,6 +81,13 @@ class Builder {
 
     yield '# typed: strict';
     yield '';
+
+    if (this.options?.sorbet?.magicComments?.length) {
+      for (const magicComment of this.options.sorbet.magicComments) {
+        yield `# ${magicComment}`;
+      }
+      yield '';
+    }
 
     if (this.options?.sorbet?.fileIncludes?.length) {
       for (const include of this.options.sorbet.fileIncludes) {

@@ -9,13 +9,20 @@ import {
   TypedValue,
 } from 'basketry';
 import { pascal, snake } from 'case';
+import { sep } from 'path';
 
-import { SorbetOptions } from './types';
+import { NamespacedSorbetOptions } from './types';
+
+function subfolder(options?: NamespacedSorbetOptions): string[] {
+  return (options?.basketry?.subfolder || '')
+    .split(sep)
+    .filter((x) => !!x && x !== '.' && x !== '..');
+}
 
 export function buildNamespace(
   subModule: string | undefined,
   service: Service,
-  options?: SorbetOptions,
+  options?: NamespacedSorbetOptions,
 ): string {
   const segments: string[] = [];
 
@@ -37,18 +44,19 @@ export function buildInterfaceName(int: Interface): string {
 }
 export function buildInterfaceNamespace(
   service: Service,
-  options?: SorbetOptions,
+  options?: NamespacedSorbetOptions,
 ): string {
   return buildNamespace(options?.sorbet?.interfacesModule, service, options);
 }
 export function buildInterfaceFilepath(
   int: Interface,
   service: Service,
-  options?: SorbetOptions,
+  options?: NamespacedSorbetOptions,
 ): string[] {
   const namespace = buildInterfaceNamespace(service, options);
 
   return [
+    ...subfolder(options),
     ...namespace.split('::').map(snake),
     `${snake(buildInterfaceName(int))}.rb`,
   ];
@@ -56,18 +64,22 @@ export function buildInterfaceFilepath(
 
 export function buildTypeNamespace(
   service: Service,
-  options?: SorbetOptions,
+  options?: NamespacedSorbetOptions,
 ): string {
   return buildNamespace(options?.sorbet?.typesModule, service, options);
 }
 export function buildTypeFilepath(
   type: Type,
   service: Service,
-  options?: SorbetOptions,
+  options?: NamespacedSorbetOptions,
 ): string[] {
   const namespace = buildTypeNamespace(service, options);
 
-  return [...namespace.split('::').map(snake), `${snake(type.name.value)}.rb`];
+  return [
+    ...subfolder(options),
+    ...namespace.split('::').map(snake),
+    `${snake(type.name.value)}.rb`,
+  ];
 }
 export function buildTypeName({
   type,
@@ -77,7 +89,7 @@ export function buildTypeName({
 }: {
   type: TypedValue;
   service: Service;
-  options: SorbetOptions | undefined;
+  options: NamespacedSorbetOptions | undefined;
   skipArrayify?: boolean;
 }): string {
   const arrayify = (n: string) =>
@@ -136,18 +148,22 @@ export function buildTypeName({
 
 export function buildEnumNamespace(
   service: Service,
-  options?: SorbetOptions,
+  options?: NamespacedSorbetOptions,
 ): string {
   return buildNamespace(options?.sorbet?.enumsModule, service, options);
 }
 export function buildEnumFilepath(
   e: Enum,
   service: Service,
-  options?: SorbetOptions,
+  options?: NamespacedSorbetOptions,
 ): string[] {
   const namespace = buildEnumNamespace(service, options);
 
-  return [...namespace.split('::').map(snake), `${snake(e.name.value)}.rb`];
+  return [
+    ...subfolder(options),
+    ...namespace.split('::').map(snake),
+    `${snake(e.name.value)}.rb`,
+  ];
 }
 
 export function buildPropertyName(property: Property): string {

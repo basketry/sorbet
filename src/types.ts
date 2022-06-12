@@ -1,10 +1,16 @@
 export type SorbetOptions = {
-  sorbet?: {
-    typesModule?: string;
-    enumsModule?: string;
-    interfacesModule?: string;
-    fileIncludes?: string[];
-    includeVersion?: boolean;
-    types?: Record<string, string>;
+  typesModule?: string;
+  enumsModule?: string;
+  interfacesModule?: string;
+  fileIncludes?: string[];
+  magicComments?: string[];
+  includeVersion?: boolean;
+  types?: Record<string, string>;
+};
+
+export type NamespacedSorbetOptions = {
+  basketry?: {
+    subfolder?: string;
   };
+  sorbet?: SorbetOptions;
 };
