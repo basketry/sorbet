@@ -26,7 +26,7 @@ Example config without options:
   "source": "petstore.json",
   "parser": "@basketry/swagger-2",
   "generators": ["@basketry/sorbet"],
-  "output": "src"
+  "output": "app/lib"
 }
 ```
 
@@ -34,16 +34,17 @@ Resulting output:
 
 ```
 my_project/
-├─ src/
-│  ├─ petstore/
-│  │  ├─ v1/
-│  │  │  ├─ some_enum_a.rb
-│  │  │  ├─ some_enum_b.rb
-│  │  │  ├─ some_interface_a.rb
-│  │  │  ├─ some_interface_b.rb
-│  │  │  ├─ some_type_a.rb
-│  │  │  ├─ some_type_b.rb
-│  ├─ .gitattributes
+├─ app/
+│  ├─ lib/
+│  │  ├─ petstore/
+│  │  │  ├─ v1/
+│  │  │  │  ├─ some_enum_a.rb
+│  │  │  │  ├─ some_enum_b.rb
+│  │  │  │  ├─ some_interface_a.rb
+│  │  │  │  ├─ some_interface_b.rb
+│  │  │  │  ├─ some_type_a.rb
+│  │  │  │  ├─ some_type_b.rb
+│  │  ├─ .gitattributes
 ├─ basketry.config.json
 ├─ petstore.json
 ```
@@ -72,7 +73,7 @@ All sorbet generator options are namespaced within a `sorbet` property as shown 
       }
     }
   ],
-  "output": "src"
+  "output": "app/lib"
 }
 ```
 
@@ -97,15 +98,16 @@ Resulting output:
 
 ```
 my_project/
-├─ src/
-│  ├─ petstore/
-│  │  ├─ some_enum_a.rb
-│  │  ├─ some_enum_b.rb
-│  │  ├─ some_interface_a.rb
-│  │  ├─ some_interface_b.rb
-│  │  ├─ some_type_a.rb
-│  │  ├─ some_type_b.rb
-│  ├─ .gitattributes
+├─ app/
+│  ├─ lib/
+│  │  ├─ petstore/
+│  │  │  ├─ some_enum_a.rb
+│  │  │  ├─ some_enum_b.rb
+│  │  │  ├─ some_interface_a.rb
+│  │  │  ├─ some_interface_b.rb
+│  │  │  ├─ some_type_a.rb
+│  │  │  ├─ some_type_b.rb
+│  │  ├─ .gitattributes
 ├─ basketry.config.json
 ├─ petstore.json
 ```
@@ -129,17 +131,18 @@ Resulting output:
 
 ```
 my_project/
-├─ src/
-│  ├─ petstore/
-│  │  ├─ v1/
-│  │  │  ├─ types/
-│  │  │  │  ├─ some_type_a.rb
-│  │  │  │  ├─ some_type_b.rb
-│  │  │  ├─ some_enum_a.rb
-│  │  │  ├─ some_enum_b.rb
-│  │  │  ├─ some_interface_a.rb
-│  │  │  ├─ some_interface_b.rb
-│  ├─ .gitattributes
+├─ app/
+│  ├─ lib/
+│  │  ├─ petstore/
+│  │  │  ├─ v1/
+│  │  │  │  ├─ types/
+│  │  │  │  │  ├─ some_type_a.rb
+│  │  │  │  │  ├─ some_type_b.rb
+│  │  │  │  ├─ some_enum_a.rb
+│  │  │  │  ├─ some_enum_b.rb
+│  │  │  │  ├─ some_interface_a.rb
+│  │  │  │  ├─ some_interface_b.rb
+│  │  ├─ .gitattributes
 ├─ basketry.config.json
 ├─ petstore.json
 ```
@@ -163,17 +166,18 @@ Resulting output:
 
 ```
 my_project/
-├─ src/
-│  ├─ petstore/
-│  │  ├─ v1/
-│  │  │  ├─ enums/
-│  │  │  │  ├─ some_enum_a.rb
-│  │  │  │  ├─ some_enum_b.rb
-│  │  │  ├─ some_interface_a.rb
-│  │  │  ├─ some_interface_b.rb
-│  │  │  ├─ some_type_a.rb
-│  │  │  ├─ some_type_b.rb
-│  ├─ .gitattributes
+├─ app/
+│  ├─ lib/
+│  │  ├─ petstore/
+│  │  │  ├─ v1/
+│  │  │  │  ├─ enums/
+│  │  │  │  │  ├─ some_enum_a.rb
+│  │  │  │  │  ├─ some_enum_b.rb
+│  │  │  │  ├─ some_interface_a.rb
+│  │  │  │  ├─ some_interface_b.rb
+│  │  │  │  ├─ some_type_a.rb
+│  │  │  │  ├─ some_type_b.rb
+│  │  ├─ .gitattributes
 ├─ basketry.config.json
 ├─ petstore.json
 ```
@@ -197,17 +201,18 @@ Resulting output:
 
 ```
 my_project/
-├─ src/
-│  ├─ petstore/
-│  │  ├─ v1/
-│  │  │  ├─ services/
-│  │  │  │  ├─ some_interface_a.rb
-│  │  │  │  ├─ some_interface_b.rb
-│  │  │  ├─ some_enum_a.rb
-│  │  │  ├─ some_enum_b.rb
-│  │  │  ├─ some_type_a.rb
-│  │  │  ├─ some_type_b.rb
-│  ├─ .gitattributes
+├─ app/
+│  ├─ lib/
+│  │  ├─ petstore/
+│  │  │  ├─ v1/
+│  │  │  │  ├─ services/
+│  │  │  │  │  ├─ some_interface_a.rb
+│  │  │  │  │  ├─ some_interface_b.rb
+│  │  │  │  ├─ some_enum_a.rb
+│  │  │  │  ├─ some_enum_b.rb
+│  │  │  │  ├─ some_type_a.rb
+│  │  │  │  ├─ some_type_b.rb
+│  │  ├─ .gitattributes
 ├─ basketry.config.json
 ├─ petstore.json
 ```
