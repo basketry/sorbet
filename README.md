@@ -217,6 +217,21 @@ my_project/
 ├─ petstore.json
 ```
 
+### `magicComments`
+
+This option allows you to add magic comments to the files emitted by this generator.
+
+```json
+{
+  "rule": "@basketry/sorbet",
+  "options": {
+    "sorbet": {
+      "magicComments": ["frozen_string_literal: true"]
+    }
+  }
+}
+```
+
 ### `types`
 
 This option allows you to specify overrides for various types.

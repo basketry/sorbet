@@ -67,6 +67,15 @@ class Builder {
     }
   }
 
+  private *magicComments(): Iterable<string> {
+    if (this.options?.sorbet?.magicComments?.length) {
+      for (const magicComment of this.options.sorbet.magicComments) {
+        yield `# ${magicComment}`;
+      }
+      yield '';
+    }
+  }
+
   private buildInterfaceFile(int: Interface): File {
     return {
       path: buildInterfaceFilepath(int, this.service, this.options),
@@ -78,6 +87,8 @@ class Builder {
     const self = this;
     yield warning(this.service, require('../package.json'));
     yield '';
+
+    yield* this.magicComments();
 
     yield '# typed: strict';
     yield '';
@@ -197,6 +208,8 @@ class Builder {
     yield warning(this.service, require('../package.json'));
     yield '';
 
+    yield* this.magicComments();
+
     yield '# typed: strict';
     yield '';
 
@@ -247,6 +260,8 @@ class Builder {
   private *buildEnum(e: Enum): Iterable<string> {
     yield warning(this.service, require('../package.json'));
     yield '';
+
+    yield* this.magicComments();
 
     yield '# typed: strict';
     yield '';

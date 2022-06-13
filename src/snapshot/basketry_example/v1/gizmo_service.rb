@@ -10,7 +10,11 @@
 # About Basketry: https://github.com/basketry/basketry/wiki
 # About @basketry/sorbet: https://github.com/basketry/sorbet#readme
 
+# frozen_string_literal: true
+
 # typed: strict
+
+# frozen_string_literal: true
 
 module BasketryExample::V1
   module GizmoService

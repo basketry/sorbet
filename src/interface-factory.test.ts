@@ -16,6 +16,7 @@ describe('InterfaceFactory', () => {
       sorbet: {
         typesModule: 'types',
         enumsModule: 'enums',
+        magicComments: ['frozen_string_literal: true'],
       },
     });
 
