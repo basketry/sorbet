@@ -12,6 +12,11 @@ import {
 } from 'basketry';
 import { constant, pascal, snake } from 'case';
 import {
+  buildServiceLocatorFilepath,
+  buildServiceLocatorName,
+  buildServiceLocatorNamespace,
+} from '.';
+import {
   buildEnumFilepath,
   buildEnumNamespace,
   buildInterfaceFilepath,
@@ -52,7 +57,12 @@ class Builder {
 
     const enumFiles = this.service.enums.map((e) => this.buildEnumFile(e));
 
-    return [...interfaceFiles, ...typeFiles, ...enumFiles];
+    return [
+      ...interfaceFiles,
+      ...typeFiles,
+      ...enumFiles,
+      this.buildServiceLocatorFile(),
+    ];
   }
 
   private *comment(
@@ -287,6 +297,84 @@ class Builder {
 
     yield '';
   }
+
+  private buildServiceLocatorFile(): File {
+    return {
+      path: buildServiceLocatorFilepath(this.service, this.options),
+      contents: from(this.buildServiceLocator()),
+    };
+  }
+
+  private *buildServiceLocator(): Iterable<string> {
+    const self = this;
+    yield warning(this.service, require('../package.json'));
+    yield '';
+
+    if (this.options?.sorbet?.magicComments?.length) {
+      for (const magicComment of this.options.sorbet.magicComments) {
+        yield `# ${magicComment}`;
+      }
+      yield '';
+    }
+
+    yield '# typed: strict';
+    yield '';
+
+    const versionedModule = buildServiceLocatorNamespace(
+      this.service,
+      this.options,
+    );
+
+    yield* block(`module ${versionedModule}`, function* () {
+      yield* block(`module ${buildServiceLocatorName()}`, function* () {
+        yield `extend T::Sig`;
+        yield `extend T::Helpers`;
+        yield '';
+        yield `interface!`;
+        for (const int of self.service.interfaces) {
+          const interfaceName = buildInterfaceName(int);
+          yield '';
+          yield `sig { abstract.returns(${buildInterfaceNamespace(
+            self.service,
+            self.options,
+          )}::${interfaceName}) }`;
+          yield `def ${snake(interfaceName)}`;
+          yield 'end';
+        }
+      });
+    });
+
+    yield '';
+    yield `# The following template can be used to create an implementation of the ${buildServiceLocatorName()}.`;
+    yield `# Note that if the original service definition is updated, this template may also be`;
+    yield `# updated; however, your implementation will remain as-is. In such a case, you will need`;
+    yield `# to manually update your implementation to match the ${buildServiceLocatorName()} interface.`;
+    yield '';
+
+    yield* comment(function* () {
+      yield* block(`class TemplateServiceLocator`, function* () {
+        yield `extend T::Sig`;
+        yield '';
+        yield `include ${buildServiceLocatorNamespace(
+          self.service,
+          self.options,
+        )}::${buildServiceLocatorName()}`;
+        for (const int of self.service.interfaces) {
+          const interfaceName = buildInterfaceName(int);
+          yield '';
+          yield `sig { override.returns(${buildInterfaceNamespace(
+            self.service,
+            self.options,
+          )}::${interfaceName}) }`;
+          yield `def ${snake(interfaceName)}`;
+          yield* indent(`raise NotImplementedError`);
+          yield 'end';
+        }
+      });
+    });
+
+    yield '';
+  }
 }
 
 function sortParameters(parameters: Parameter[]): Parameter[] {
@@ -326,5 +414,13 @@ function* indent(
     }
   } finally {
     indentCount--;
+  }
+}
+
+function* comment(
+  lines: Iterable<string> | (() => Iterable<string>),
+): Iterable<string> {
+  for (const line of typeof lines === 'function' ? lines() : lines) {
+    yield line.length ? `# ${line}` : '#';
   }
 }

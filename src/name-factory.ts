@@ -166,6 +166,28 @@ export function buildEnumFilepath(
   ];
 }
 
+export function buildServiceLocatorName(): string {
+  return 'ServiceLocator';
+}
+export function buildServiceLocatorNamespace(
+  service: Service,
+  options?: NamespacedSorbetOptions,
+): string {
+  return buildNamespace('utils', service, options);
+}
+export function buildServiceLocatorFilepath(
+  service: Service,
+  options?: NamespacedSorbetOptions,
+): string[] {
+  const namespace = buildServiceLocatorNamespace(service, options);
+
+  return [
+    ...subfolder(options),
+    ...namespace.split('::').map(snake),
+    `${snake(buildServiceLocatorName())}.rb`,
+  ];
+}
+
 export function buildPropertyName(property: Property): string {
   return snake(property.name.value);
 }

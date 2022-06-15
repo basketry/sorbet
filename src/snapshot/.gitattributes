@@ -18,3 +18,4 @@ basketry_example/v1/enums/exhaustive_params_path_enum_array.rb linguist-generate
 basketry_example/v1/enums/exhaustive_params_header_enum.rb linguist-generated=true
 basketry_example/v1/enums/exhaustive_params_header_enum_array.rb linguist-generated=true
 basketry_example/v1/enums/product_size.rb linguist-generated=true
+basketry_example/v1/utils/service_locator.rb linguist-generated=true
