@@ -65,6 +65,10 @@ class Builder {
     ];
   }
 
+  private warning() {
+    return warning(this.service, require('../package.json'), this.options);
+  }
+
   private *comment(
     text: string | Literal<string> | Literal<string>[] | undefined,
   ): Iterable<string> {
@@ -95,7 +99,7 @@ class Builder {
 
   private *buildInterface(int: Interface): Iterable<string> {
     const self = this;
-    yield warning(this.service, require('../package.json'));
+    yield this.warning();
     yield '';
 
     yield* this.magicComments();
@@ -215,7 +219,7 @@ class Builder {
 
   private *buildType(type: Type): Iterable<string> {
     const self = this;
-    yield warning(this.service, require('../package.json'));
+    yield this.warning();
     yield '';
 
     yield* this.magicComments();
@@ -268,7 +272,7 @@ class Builder {
   }
 
   private *buildEnum(e: Enum): Iterable<string> {
-    yield warning(this.service, require('../package.json'));
+    yield this.warning();
     yield '';
 
     yield* this.magicComments();
@@ -307,7 +311,7 @@ class Builder {
 
   private *buildServiceLocator(): Iterable<string> {
     const self = this;
-    yield warning(this.service, require('../package.json'));
+    yield this.warning();
     yield '';
 
     if (this.options?.sorbet?.magicComments?.length) {
