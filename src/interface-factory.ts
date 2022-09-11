@@ -31,6 +31,7 @@ import {
 } from './name-factory';
 
 import { NamespacedSorbetOptions } from './types';
+import { block, comment, indent } from './utils';
 import { warning } from './warning';
 
 export const generateTypes: Generator = (
@@ -389,42 +390,4 @@ function sortParameters(parameters: Parameter[]): Parameter[] {
 
 function from(lines: Iterable<string>): string {
   return Array.from(lines).join('\n');
-}
-
-let indentCount = 0;
-
-function* block(
-  line: string,
-  body: string | Iterable<string> | (() => Iterable<string>),
-): Iterable<string> {
-  yield line;
-  yield* indent(body);
-  yield 'end';
-}
-
-function* indent(
-  lines: string | Iterable<string> | (() => Iterable<string>),
-): Iterable<string> {
-  try {
-    indentCount++;
-    for (const line of typeof lines === 'function'
-      ? lines()
-      : typeof lines === 'string'
-      ? [lines]
-      : lines) {
-      yield line.trim().length
-        ? `${'  '.repeat(indentCount)}${line.trim()}`
-        : '';
-    }
-  } finally {
-    indentCount--;
-  }
-}
-
-function* comment(
-  lines: Iterable<string> | (() => Iterable<string>),
-): Iterable<string> {
-  for (const line of typeof lines === 'function' ? lines() : lines) {
-    yield line.length ? `# ${line}` : '#';
-  }
 }

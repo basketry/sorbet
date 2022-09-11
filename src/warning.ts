@@ -3,6 +3,7 @@ import {
   Service,
   warning as buildWarning,
 } from 'basketry';
+import { comment, from } from './utils';
 
 export const warning = (
   service: Service,
@@ -12,7 +13,4 @@ export const warning = (
     homepage?: string;
   },
   options?: NamespacedBasketryOptions,
-) =>
-  Array.from(buildWarning(service, pkg, options || {}))
-    .map((x) => `# ${x}`.trim())
-    .join('\n');
+) => from(comment(buildWarning(service, pkg, options || {})));
