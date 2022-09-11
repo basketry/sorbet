@@ -13,12 +13,6 @@ import { sep } from 'path';
 
 import { NamespacedSorbetOptions } from './types';
 
-function subfolder(options?: NamespacedSorbetOptions): string[] {
-  return (options?.basketry?.subfolder || '')
-    .split(sep)
-    .filter((x) => !!x && x !== '.' && x !== '..');
-}
-
 export function buildNamespace(
   subModule: string | undefined,
   service: Service,
@@ -56,7 +50,6 @@ export function buildInterfaceFilepath(
   const namespace = buildInterfaceNamespace(service, options);
 
   return [
-    ...subfolder(options),
     ...namespace.split('::').map(snake),
     `${snake(buildInterfaceName(int))}.rb`,
   ];
@@ -75,11 +68,7 @@ export function buildTypeFilepath(
 ): string[] {
   const namespace = buildTypeNamespace(service, options);
 
-  return [
-    ...subfolder(options),
-    ...namespace.split('::').map(snake),
-    `${snake(type.name.value)}.rb`,
-  ];
+  return [...namespace.split('::').map(snake), `${snake(type.name.value)}.rb`];
 }
 export function buildTypeName({
   type,
@@ -159,11 +148,7 @@ export function buildEnumFilepath(
 ): string[] {
   const namespace = buildEnumNamespace(service, options);
 
-  return [
-    ...subfolder(options),
-    ...namespace.split('::').map(snake),
-    `${snake(e.name.value)}.rb`,
-  ];
+  return [...namespace.split('::').map(snake), `${snake(e.name.value)}.rb`];
 }
 
 export function buildServiceLocatorName(): string {
@@ -182,7 +167,6 @@ export function buildServiceLocatorFilepath(
   const namespace = buildServiceLocatorNamespace(service, options);
 
   return [
-    ...subfolder(options),
     ...namespace.split('::').map(snake),
     `${snake(buildServiceLocatorName())}.rb`,
   ];
