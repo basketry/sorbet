@@ -36,9 +36,13 @@ export function* indent(contents: Contents): Iterable<string> {
 }
 
 /** Comments the supplied contents. Empty lines are preserved. */
-export function* comment(contents: Contents): Iterable<string> {
-  for (const line of iter(contents)) {
-    yield line.length ? `# ${line}` : '#';
+export function* comment(contents?: Contents): Iterable<string> {
+  if (!contents) {
+    yield '#';
+  } else {
+    for (const line of iter(contents)) {
+      yield line.length ? `# ${line}` : '#';
+    }
   }
 }
 
