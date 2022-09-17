@@ -7,6 +7,7 @@ import {
   Literal,
   Method,
   Parameter,
+  ReturnType,
   Service,
   Type,
 } from 'basketry';
@@ -136,8 +137,8 @@ class Builder {
         yield 'interface!';
         for (const method of methods) {
           yield '';
-          yield* self.comment(method.description);
           yield* self.buildSignature(method);
+          yield* self.buildYardDoc(method);
           yield* self.buildDefinition(method);
         }
       }),
@@ -196,6 +197,85 @@ class Builder {
         return `${buildParameterName(param)}: ${nilableTypeName}${comma}`;
       }),
     );
+  }
+
+  private *buildYardDoc(method: Method): Iterable<string> {
+    if (method.description || method.parameters.length || method.returnType) {
+      yield* comment();
+    }
+    if (method.description) {
+      if (Array.isArray(method.description)) {
+        let first = false;
+        for (const line of method.description) {
+          if (first) first = false;
+          else yield* comment();
+          yield* comment(line.value);
+        }
+      } else {
+        yield* comment(method.description.value);
+      }
+    }
+    if (method.parameters.length) {
+      if (method.description) yield* comment();
+
+      for (const param of method.parameters) {
+        yield* comment(
+          `@param [${this.buildParameterType(param)}] ${buildParameterName(
+            param,
+          )}${this.buildParameterDescription(param)}`,
+        );
+      }
+    }
+    if (method.returnType) {
+      if (method.description || method.parameters.length) yield* comment();
+
+      yield* comment(`@return [${this.buildReturnType(method.returnType)}]`);
+    }
+    if (method.description || method.parameters.length || method.returnType) {
+      yield* comment();
+    }
+  }
+
+  private buildParameterType(param: Parameter): string {
+    const baseType = buildTypeName({
+      type: param,
+      options: this.options,
+      service: this.service,
+      skipArrayify: true,
+    });
+
+    const arrayified = param.isArray ? `Array<${baseType}>` : baseType;
+
+    return isRequired(param) ? arrayified : `${arrayified}, nil`;
+  }
+
+  private buildReturnType(param: ReturnType): string {
+    const baseType = buildTypeName({
+      type: param,
+      options: this.options,
+      service: this.service,
+      skipArrayify: true,
+    });
+
+    return param.isArray ? `Array<${baseType}>` : baseType;
+  }
+
+  private buildParameterDescription(param: Parameter): string {
+    if (!param.description) {
+      return '';
+    } else if (Array.isArray(param.description)) {
+      if (param.description.length) {
+        return ` ${param.description.map((d) => d.value).join(' ')}`;
+      } else {
+        return '';
+      }
+    } else {
+      if (param.description.value.length) {
+        return ` ${param.description.value}`;
+      } else {
+        return '';
+      }
+    }
   }
 
   private *buildDefinition(method: Method): Iterable<string> {

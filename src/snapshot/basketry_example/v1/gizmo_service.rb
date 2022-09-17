@@ -23,8 +23,6 @@ module BasketryExample::V1
 
     interface!
 
-    # Has a summary in addition to a description
-    # Has a description in addition to a summary
     sig do
       abstract.params(
         size: T.nilable(BasketryExample::V1::Enums::CreateGizmoSize)
@@ -32,10 +30,19 @@ module BasketryExample::V1
         BasketryExample::V1::Types::Gizmo
       )
     end
+    #
+    #
+    # Has a summary in addition to a description
+    #
+    # Has a description in addition to a summary
+    #
+    # @param [BasketryExample::V1::Enums::CreateGizmoSize, nil] size Anonymous enum
+    #
+    # @return [BasketryExample::V1::Types::Gizmo]
+    #
     def create_gizmo(size: nil)
     end
 
-    # Only has a summary
     sig do
       abstract.params(
         search: T.nilable(String)
@@ -43,6 +50,13 @@ module BasketryExample::V1
         BasketryExample::V1::Types::GizmosResponse
       )
     end
+    #
+    # Only has a summary
+    #
+    # @param [String, nil] search
+    #
+    # @return [BasketryExample::V1::Types::GizmosResponse]
+    #
     def get_gizmos(search: nil)
     end
 
@@ -53,6 +67,11 @@ module BasketryExample::V1
         BasketryExample::V1::Types::Gizmo
       )
     end
+    #
+    # @param [Array<String>, nil] factors array of primitive
+    #
+    # @return [BasketryExample::V1::Types::Gizmo]
+    #
     def update_gizmo(factors: nil)
     end
   end

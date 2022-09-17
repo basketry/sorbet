@@ -28,6 +28,9 @@ module BasketryExample::V1
         body: T.nilable(BasketryExample::V1::Types::CreateWidgetBody)
       ).void
     end
+    #
+    # @param [BasketryExample::V1::Types::CreateWidgetBody, nil] body The new widget
+    #
     def create_widget(body: nil)
     end
 
@@ -36,6 +39,9 @@ module BasketryExample::V1
         id: String
       ).void
     end
+    #
+    # @param [String] id The widget ID
+    #
     def delete_widget_foo(id:)
     end
 
@@ -46,10 +52,18 @@ module BasketryExample::V1
         BasketryExample::V1::Types::Widget
       )
     end
+    #
+    # @param [String] id The widget ID
+    #
+    # @return [BasketryExample::V1::Types::Widget]
+    #
     def get_widget_foo(id:)
     end
 
     sig { abstract.returns(BasketryExample::V1::Types::Widget) }
+    #
+    # @return [BasketryExample::V1::Types::Widget]
+    #
     def get_widgets
     end
 
