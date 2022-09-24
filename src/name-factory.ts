@@ -14,7 +14,7 @@ import { sep } from 'path';
 import { NamespacedSorbetOptions } from './types';
 
 export function buildNamespace(
-  subModule: string | undefined,
+  subModule: string | string[] | undefined,
   service: Service,
   options?: NamespacedSorbetOptions,
 ): string {
@@ -27,7 +27,9 @@ export function buildNamespace(
   }
 
   if (subModule) {
-    segments.push(subModule);
+    const subModuleSegments =
+      typeof subModule === 'string' ? [subModule] : subModule;
+    segments.push(...subModuleSegments);
   }
 
   return segments.map(pascal).join('::');

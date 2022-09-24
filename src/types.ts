@@ -1,7 +1,7 @@
 export type SorbetOptions = {
-  typesModule?: string;
-  enumsModule?: string;
-  interfacesModule?: string;
+  typesModule?: string | string[];
+  enumsModule?: string | string[];
+  interfacesModule?: string | string[];
   fileIncludes?: string[];
   magicComments?: string[];
   includeVersion?: boolean;
