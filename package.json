@@ -1,6 +1,6 @@
 {
   "name": "@basketry/sorbet",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "Basketry generator for generating Sorbet types and interfaces",
   "main": "./lib/index.js",
   "scripts": {
