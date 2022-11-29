@@ -12,15 +12,34 @@ import {
   buildTypeName,
 } from './name-factory';
 import { NamespacedSorbetOptions } from './types';
-import { block, comment, Contents, indent } from './utils';
+import {
+  BlockFunction,
+  CommentFunction,
+  Contents,
+  IndentFunction,
+} from './utils';
 
 export class SigFactory {
   constructor(
     private readonly method: Method,
     private readonly service: Service,
     private readonly options: NamespacedSorbetOptions | undefined,
+    formatter: {
+      block: BlockFunction;
+      comment: CommentFunction;
+      indent: IndentFunction;
+    },
     private readonly contents?: Contents,
-  ) {}
+  ) {
+    this.block = formatter.block;
+    this.comment = formatter.comment;
+    this.indent = formatter.indent;
+  }
+
+  private readonly comment: CommentFunction;
+  private readonly block: BlockFunction;
+  private readonly indent: IndentFunction;
+
   *build(): Iterable<string> {
     yield* this.buildSignature(this.method);
     if (!this.contents) yield* this.buildYardDoc(this.method);
@@ -40,11 +59,11 @@ export class SigFactory {
       });
 
       if (method.parameters.length) {
-        yield* block('sig do', function* () {
+        yield* this.block('sig do', function* () {
           yield `${mode}.params(`;
           yield* self.buildSignatureParameters(method);
           yield `).returns(`;
-          yield* indent(typeName);
+          yield* self.indent(typeName);
           yield `)`;
         });
       } else {
@@ -52,7 +71,7 @@ export class SigFactory {
       }
     } else {
       if (method.parameters.length) {
-        yield* block('sig do', function* () {
+        yield* this.block('sig do', function* () {
           yield `${mode}.params(`;
           yield* self.buildSignatureParameters(method);
           yield ').void';
@@ -64,7 +83,7 @@ export class SigFactory {
   }
 
   private *buildSignatureParameters(method: Method): Iterable<string> {
-    yield* indent(
+    yield* this.indent(
       sortParameters(method.parameters).map((param, i) => {
         const comma = i === method.parameters.length - 1 ? '' : ',';
         const typeName = buildTypeName({
@@ -83,25 +102,25 @@ export class SigFactory {
 
   private *buildYardDoc(method: Method): Iterable<string> {
     if (method.description || method.parameters.length || method.returnType) {
-      yield* comment();
+      yield* this.comment();
     }
     if (method.description) {
       if (Array.isArray(method.description)) {
         let first = false;
         for (const line of method.description) {
           if (first) first = false;
-          else yield* comment();
-          yield* comment(line.value);
+          else yield* this.comment();
+          yield* this.comment(line.value);
         }
       } else {
-        yield* comment(method.description.value);
+        yield* this.comment(method.description.value);
       }
     }
     if (method.parameters.length) {
-      if (method.description) yield* comment();
+      if (method.description) yield* this.comment();
 
       for (const param of method.parameters) {
-        yield* comment(
+        yield* this.comment(
           `@param [${this.buildParameterType(param)}] ${buildParameterName(
             param,
           )}${this.buildParameterDescription(param)}`,
@@ -109,12 +128,14 @@ export class SigFactory {
       }
     }
     if (method.returnType) {
-      if (method.description || method.parameters.length) yield* comment();
+      if (method.description || method.parameters.length) yield* this.comment();
 
-      yield* comment(`@return [${this.buildReturnType(method.returnType)}]`);
+      yield* this.comment(
+        `@return [${this.buildReturnType(method.returnType)}]`,
+      );
     }
     if (method.description || method.parameters.length || method.returnType) {
-      yield* comment();
+      yield* this.comment();
     }
   }
 
@@ -170,7 +191,7 @@ export class SigFactory {
           .join(', ')})`
       : '';
 
-    yield* block(
+    yield* this.block(
       `def ${buildMethodName(method)}${parameters}`,
       this.contents || [],
     );

@@ -133,7 +133,11 @@ class Builder {
         yield 'interface!';
         for (const method of methods) {
           yield '';
-          yield* new SigFactory(method, self.service, self.options).build();
+          yield* new SigFactory(method, self.service, self.options, {
+            block,
+            comment,
+            indent,
+          }).build();
         }
       }),
     );
