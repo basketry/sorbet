@@ -20,6 +20,7 @@ export function* block(line: string, contents: Contents): Iterable<string> {
   yield* indent(contents);
   yield 'end';
 }
+export type BlockFunction = typeof block;
 
 /** Indents the supplied contents. Indentation is preserved between calls. */
 export function* indent(contents: Contents): Iterable<string> {
@@ -34,6 +35,7 @@ export function* indent(contents: Contents): Iterable<string> {
     indentCount--;
   }
 }
+export type IndentFunction = typeof indent;
 
 /** Comments the supplied contents. Empty lines are preserved. */
 export function* comment(contents?: Contents): Iterable<string> {
@@ -45,6 +47,7 @@ export function* comment(contents?: Contents): Iterable<string> {
     }
   }
 }
+export type CommentFunction = typeof comment;
 
 /** Converts `Contents` into an `Iterable<string>` */
 function iter(contents: Contents): Iterable<string> {
