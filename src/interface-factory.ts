@@ -28,7 +28,7 @@ import {
 import { SigFactory } from './sig-factory';
 
 import { NamespacedSorbetOptions } from './types';
-import { block, comment, indent } from './utils';
+import { block, comment, formatter, indent } from './utils';
 import { warning } from './warning';
 
 export const generateTypes: Generator = (
@@ -133,11 +133,12 @@ class Builder {
         yield 'interface!';
         for (const method of methods) {
           yield '';
-          yield* new SigFactory(method, self.service, self.options, {
-            block,
-            comment,
-            indent,
-          }).build();
+          yield* new SigFactory(
+            method,
+            self.service,
+            self.options,
+            formatter,
+          ).build();
         }
       }),
     );

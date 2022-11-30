@@ -16,6 +16,7 @@ import {
   BlockFunction,
   CommentFunction,
   Contents,
+  Formatter,
   IndentFunction,
 } from './utils';
 
@@ -24,11 +25,7 @@ export class SigFactory {
     private readonly method: Method,
     private readonly service: Service,
     private readonly options: NamespacedSorbetOptions | undefined,
-    formatter: {
-      block: BlockFunction;
-      comment: CommentFunction;
-      indent: IndentFunction;
-    },
+    formatter: Formatter,
     private readonly contents?: Contents,
   ) {
     this.block = formatter.block;
