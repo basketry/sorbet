@@ -37,6 +37,22 @@ export function* indent(contents: Contents): Iterable<string> {
 }
 export type IndentFunction = typeof indent;
 
+/** Unindents the supplied contents if the current indentation is > 0. Indentation is preserved between calls. */
+export function* unindent(contents: Contents): Iterable<string> {
+  const changeIndent = indentCount > 0;
+  try {
+    if (changeIndent) indentCount--;
+    for (const line of iter(contents)) {
+      yield line.trim().length
+        ? `${indentation.repeat(indentCount)}${line.trim()}`
+        : '';
+    }
+  } finally {
+    if (changeIndent) indentCount++;
+  }
+}
+export type UnindentFunction = typeof unindent;
+
 /** Comments the supplied contents. Empty lines are preserved. */
 export function* comment(contents?: Contents): Iterable<string> {
   if (!contents) {
@@ -57,3 +73,16 @@ function iter(contents: Contents): Iterable<string> {
 
   return typeof contents === 'function' ? arr(contents()) : arr(contents);
 }
+
+export type Formatter = {
+  block: BlockFunction;
+  comment: CommentFunction;
+  indent: IndentFunction;
+  unindent: UnindentFunction;
+};
+export const formatter: Formatter = {
+  block,
+  comment,
+  indent,
+  unindent,
+};
