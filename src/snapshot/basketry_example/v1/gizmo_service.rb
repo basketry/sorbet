@@ -23,13 +23,6 @@ module BasketryExample::V1
 
     interface!
 
-    sig do
-      abstract.params(
-        size: T.nilable(BasketryExample::V1::Enums::CreateGizmoSize)
-      ).returns(
-        BasketryExample::V1::Types::Gizmo
-      )
-    end
     #
     #
     # Has a summary in addition to a description
@@ -40,16 +33,16 @@ module BasketryExample::V1
     #
     # @return [BasketryExample::V1::Types::Gizmo]
     #
+    sig do
+      abstract.params(
+        size: T.nilable(BasketryExample::V1::Enums::CreateGizmoSize)
+      ).returns(
+        BasketryExample::V1::Types::Gizmo
+      )
+    end
     def create_gizmo(size: nil)
     end
 
-    sig do
-      abstract.params(
-        search: T.nilable(String)
-      ).returns(
-        BasketryExample::V1::Types::GizmosResponse
-      )
-    end
     #
     # Only has a summary
     #
@@ -57,9 +50,21 @@ module BasketryExample::V1
     #
     # @return [BasketryExample::V1::Types::GizmosResponse]
     #
+    sig do
+      abstract.params(
+        search: T.nilable(String)
+      ).returns(
+        BasketryExample::V1::Types::GizmosResponse
+      )
+    end
     def get_gizmos(search: nil)
     end
 
+    #
+    # @param [Array<String>, nil] factors array of primitive
+    #
+    # @return [BasketryExample::V1::Types::Gizmo]
+    #
     sig do
       abstract.params(
         factors: T.nilable(T::Array[String])
@@ -67,11 +72,6 @@ module BasketryExample::V1
         BasketryExample::V1::Types::Gizmo
       )
     end
-    #
-    # @param [Array<String>, nil] factors array of primitive
-    #
-    # @return [BasketryExample::V1::Types::Gizmo]
-    #
     def update_gizmo(factors: nil)
     end
   end

@@ -38,8 +38,8 @@ export class SigFactory {
   private readonly indent: IndentFunction;
 
   *build(): Iterable<string> {
-    yield* this.buildSignature(this.method);
     if (!this.contents) yield* this.buildYardDoc(this.method);
+    yield* this.buildSignature(this.method);
     yield* this.buildDefinition(this.method);
   }
 
