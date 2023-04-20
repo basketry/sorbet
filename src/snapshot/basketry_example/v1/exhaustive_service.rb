@@ -23,6 +23,17 @@ module BasketryExample::V1
 
     interface!
 
+    #
+    # @param [String, nil] string_no_format
+    # @param [Date, nil] string_date
+    # @param [DateTime, nil] string_date_time
+    # @param [Integer, nil] integer_no_format
+    # @param [Integer, nil] integer_int32
+    # @param [Integer, nil] integer_int64
+    # @param [Numeric, nil] number_no_format
+    # @param [Float, nil] number_float
+    # @param [Float, nil] number_double
+    #
     sig do
       abstract.params(
         string_no_format: T.nilable(String),
@@ -36,20 +47,42 @@ module BasketryExample::V1
         number_double: T.nilable(Float)
       ).void
     end
-    #
-    # @param [String, nil] string_no_format
-    # @param [Date, nil] string_date
-    # @param [DateTime, nil] string_date_time
-    # @param [Integer, nil] integer_no_format
-    # @param [Integer, nil] integer_int32
-    # @param [Integer, nil] integer_int64
-    # @param [Numeric, nil] number_no_format
-    # @param [Float, nil] number_float
-    # @param [Float, nil] number_double
-    #
     def exhaustive_formats(string_no_format: nil, string_date: nil, string_date_time: nil, integer_no_format: nil, integer_int32: nil, integer_int64: nil, number_no_format: nil, number_float: nil, number_double: nil)
     end
 
+    #
+    # @param [String, nil] query_string
+    # @param [BasketryExample::V1::Enums::ExhaustiveParamsQueryEnum, nil] query_enum
+    # @param [Numeric, nil] query_number
+    # @param [Integer, nil] query_integer
+    # @param [T::Boolean, nil] query_boolean
+    # @param [Array<String>, nil] query_string_array
+    # @param [Array<BasketryExample::V1::Enums::ExhaustiveParamsQueryEnumArray>, nil] query_enum_array
+    # @param [Array<Numeric>, nil] query_number_array
+    # @param [Array<Integer>, nil] query_integer_array
+    # @param [Array<T::Boolean>, nil] query_boolean_array
+    # @param [String] path_string
+    # @param [BasketryExample::V1::Enums::ExhaustiveParamsPathEnum] path_enum
+    # @param [Numeric] path_number
+    # @param [Integer] path_integer
+    # @param [T::Boolean] path_boolean
+    # @param [Array<String>] path_string_array
+    # @param [Array<BasketryExample::V1::Enums::ExhaustiveParamsPathEnumArray>] path_enum_array
+    # @param [Array<Numeric>] path_number_array
+    # @param [Array<Integer>] path_integer_array
+    # @param [Array<T::Boolean>] path_boolean_array
+    # @param [String, nil] header_string
+    # @param [BasketryExample::V1::Enums::ExhaustiveParamsHeaderEnum, nil] header_enum
+    # @param [Numeric, nil] header_number
+    # @param [Integer, nil] header_integer
+    # @param [T::Boolean, nil] header_boolean
+    # @param [Array<String>, nil] header_string_array
+    # @param [Array<BasketryExample::V1::Enums::ExhaustiveParamsHeaderEnumArray>, nil] header_enum_array
+    # @param [Array<Numeric>, nil] header_number_array
+    # @param [Array<Integer>, nil] header_integer_array
+    # @param [Array<T::Boolean>, nil] header_boolean_array
+    # @param [BasketryExample::V1::Types::ExhaustiveParamsBody, nil] body
+    #
     sig do
       abstract.params(
         path_string: String,
@@ -85,39 +118,6 @@ module BasketryExample::V1
         body: T.nilable(BasketryExample::V1::Types::ExhaustiveParamsBody)
       ).void
     end
-    #
-    # @param [String, nil] query_string
-    # @param [BasketryExample::V1::Enums::ExhaustiveParamsQueryEnum, nil] query_enum
-    # @param [Numeric, nil] query_number
-    # @param [Integer, nil] query_integer
-    # @param [T::Boolean, nil] query_boolean
-    # @param [Array<String>, nil] query_string_array
-    # @param [Array<BasketryExample::V1::Enums::ExhaustiveParamsQueryEnumArray>, nil] query_enum_array
-    # @param [Array<Numeric>, nil] query_number_array
-    # @param [Array<Integer>, nil] query_integer_array
-    # @param [Array<T::Boolean>, nil] query_boolean_array
-    # @param [String] path_string
-    # @param [BasketryExample::V1::Enums::ExhaustiveParamsPathEnum] path_enum
-    # @param [Numeric] path_number
-    # @param [Integer] path_integer
-    # @param [T::Boolean] path_boolean
-    # @param [Array<String>] path_string_array
-    # @param [Array<BasketryExample::V1::Enums::ExhaustiveParamsPathEnumArray>] path_enum_array
-    # @param [Array<Numeric>] path_number_array
-    # @param [Array<Integer>] path_integer_array
-    # @param [Array<T::Boolean>] path_boolean_array
-    # @param [String, nil] header_string
-    # @param [BasketryExample::V1::Enums::ExhaustiveParamsHeaderEnum, nil] header_enum
-    # @param [Numeric, nil] header_number
-    # @param [Integer, nil] header_integer
-    # @param [T::Boolean, nil] header_boolean
-    # @param [Array<String>, nil] header_string_array
-    # @param [Array<BasketryExample::V1::Enums::ExhaustiveParamsHeaderEnumArray>, nil] header_enum_array
-    # @param [Array<Numeric>, nil] header_number_array
-    # @param [Array<Integer>, nil] header_integer_array
-    # @param [Array<T::Boolean>, nil] header_boolean_array
-    # @param [BasketryExample::V1::Types::ExhaustiveParamsBody, nil] body
-    #
     def exhaustive_params(path_string:, path_enum:, path_number:, path_integer:, path_boolean:, path_string_array:, path_enum_array:, path_number_array:, path_integer_array:, path_boolean_array:, query_string: nil, query_enum: nil, query_number: nil, query_integer: nil, query_boolean: nil, query_string_array: nil, query_enum_array: nil, query_number_array: nil, query_integer_array: nil, query_boolean_array: nil, header_string: nil, header_enum: nil, header_number: nil, header_integer: nil, header_boolean: nil, header_string_array: nil, header_enum_array: nil, header_number_array: nil, header_integer_array: nil, header_boolean_array: nil, body: nil)
     end
   end
