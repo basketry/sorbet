@@ -8,9 +8,12 @@ export type SorbetOptions = {
   types?: Record<string, string>;
 };
 
+export type BasketryOptions = {
+  subfolder?: string;
+  exclude?: string[];
+};
+
 export type NamespacedSorbetOptions = {
-  basketry?: {
-    subfolder?: string;
-  };
+  basketry?: BasketryOptions;
   sorbet?: SorbetOptions;
 };

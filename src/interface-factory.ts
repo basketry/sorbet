@@ -30,6 +30,7 @@ import { SigFactory } from './sig-factory';
 import { NamespacedSorbetOptions } from './types';
 import { block, comment, formatter, indent } from './utils';
 import { warning } from './warning';
+import { FileType } from './enums';
 
 export const generateTypes: Generator = (
   service,
@@ -54,6 +55,10 @@ class Builder {
     );
 
     const enumFiles = this.service.enums.map((e) => this.buildEnumFile(e));
+
+    if (this.options?.basketry?.exclude?.includes(FileType.ServiceLocator)) {
+      return [...interfaceFiles, ...typeFiles, ...enumFiles];
+    }
 
     return [
       ...interfaceFiles,

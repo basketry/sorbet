@@ -29,4 +29,28 @@ describe('InterfaceFactory', () => {
       expect(file.contents).toStrictEqual(snapshot);
     }
   });
+
+  describe('when the ServiceLocator file is excluded', () => {
+    it('does not include the ServiceLocator file', () => {
+      // ARRANGE
+      const service = require('basketry/lib/example-ir.json');
+
+      // ACT
+      const int = generateTypes(service, {
+        sorbet: {
+          typesModule: 'types',
+          enumsModule: 'enums',
+          magicComments: ['frozen_string_literal: true'],
+        },
+        basketry: {
+          exclude: ['ServiceLocator'],
+        },
+      });
+
+      // ASSERT
+      for (const file of [...int]) {
+        expect(file.path.join('/')).not.toContain('service_locator.rb');
+      }
+    });
+  });
 });
